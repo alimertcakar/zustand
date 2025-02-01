@@ -73,7 +73,6 @@ export interface DevtoolsOptions extends Config {
   name?: string
   enabled?: boolean
   anonymousActionType?: string
-  inferActionName?: boolean
   store?: string
 }
 
@@ -157,7 +156,7 @@ const extractConnectionInformation = (
 const devtoolsImpl: DevtoolsImpl =
   (fn, devtoolsOptions = {}) =>
   (set, get, api) => {
-    const { enabled, anonymousActionType, inferActionName, store, ...options } =
+    const { enabled, anonymousActionType,  store, ...options } =
       devtoolsOptions
 
     type S = ReturnType<typeof fn> & {
@@ -187,10 +186,7 @@ const devtoolsImpl: DevtoolsImpl =
     ;(api.setState as any) = ((state, replace, nameOrAction: Action) => {
       const r = set(state, replace as any)
       if (!isRecording) return r
-      let defaultActionName = anonymousActionType
-      if (inferActionName) {
-        defaultActionName = findCallerName(new Error().stack ?? '')
-      }
+      const defaultActionName = anonymousActionType ?? findCallerName(new Error().stack ?? '')
       const action: { type: string } =
         nameOrAction === undefined
           ? { type: defaultActionName || 'anonymous' }
