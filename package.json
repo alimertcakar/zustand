@@ -1,9 +1,9 @@
 {
-  "name": "zustand",
+  "name": "zustand-fork-mert",
   "description": "🐻 Bear necessities for state management in React",
   "private": true,
   "type": "commonjs",
-  "version": "5.0.3",
+  "version": "5.0.4",
   "main": "./index.js",
   "types": "./index.d.ts",
   "typesVersions": {
